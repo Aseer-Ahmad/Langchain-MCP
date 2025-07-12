@@ -75,10 +75,8 @@ def read_config_json():
     config_path = os.getenv("THEAILANGUAGE_CONFIG")
 
     if not config_path:
-        # If environment variable is not set, use a default config file in the same directory as this script
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        config_path = os.path.join(script_dir, "theailanguage_config.json")
-        print(f"⚠️  THEAILANGUAGE_CONFIG not set. Falling back to: {config_path}")
+        print(f"CONFIG not set. Exiting.")
+        sys.exit(1)
 
     try:
         # Open and read the JSON config file
@@ -86,7 +84,7 @@ def read_config_json():
             return json.load(f)
     except Exception as e:
         # If reading fails, print an error and exit the program
-        print(f"❌ Failed to read config file at '{config_path}': {e}")
+        print(f"Failed to read config file at '{config_path}': {e}")
         sys.exit(1)
 
 # ---------------------------
@@ -110,7 +108,7 @@ async def run_agent():
     config = read_config_json()  # Load MCP server configuration from the JSON file
     mcp_servers = config.get("mcpServers", {})  # Retrieve the MCP server definitions from the config
     if not mcp_servers:
-        print("❌ No MCP servers found in the configuration.")
+        print("No MCP servers found in the configuration.")
         return
 
     tools = []  # Initialize an empty list to hold all the tools from the connected servers
@@ -143,14 +141,14 @@ async def run_agent():
                     print(f"\n🔧 Loaded tool: {tool.name}")
                     tools.append(tool)
 
-                print(f"\n✅ {len(server_tools)} tools loaded from {server_name}.")
+                print(f"\n{len(server_tools)} tools loaded from {server_name}.")
             except Exception as e:
                 # Handle any errors that occur during connection or tool loading for the server
-                print(f"❌ Failed to connect to server {server_name}: {e}")
+                print(f"Failed to connect to server {server_name}: {e}")
 
         # If no tools were loaded from any server, exit the function
         if not tools:
-            print("❌ No tools loaded from any server. Exiting.")
+            print("No tools loaded from any server. Exiting.")
             return
 
         # Create a React agent using the Google Gemini LLM and the list of aggregated tools
