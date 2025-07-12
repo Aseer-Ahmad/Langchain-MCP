@@ -3,7 +3,7 @@ import subprocess
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("terminal")
-DEFAULT_WORKSPACE = os.path.expanduser("~/mcp/workspace")
+DEFAULT_WORKSPACE = os.path.expanduser("C:/Users/Aseer/Desktop/GIT/Langchain-MCP/workspace")
 
 @mcp.tool()
 async def run_command(command: str) -> str:
@@ -27,3 +27,4 @@ async def run_command(command: str) -> str:
 
 if __name__ == "__main__":
     mcp.run(transport='stdio')
+
