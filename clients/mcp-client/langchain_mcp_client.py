@@ -116,6 +116,8 @@ async def run_agent():
             mcp_client = type("MCPClientHolder", (), {"session": session})()
             # Load MCP tools using the adapter; this handles awaiting and conversion.
             tools = await load_mcp_tools(session)
+            # print tools 
+            print(f"Tools loaded with Langchain MCP adapter: {[tool.name for tool in tools]}")
             # Create a React agent using the LLM and the loaded tools.
             agent = create_react_agent(llm, tools)
             print("MCP Client Started! Type 'quit' to exit.")
