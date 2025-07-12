@@ -18,3 +18,9 @@ MCP Client
 App
 - claude desktop app
 - langGraph
+
+
+# run
+
+## mcp-client 
+uv run client.py
