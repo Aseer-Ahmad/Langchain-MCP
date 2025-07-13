@@ -108,20 +108,20 @@ with st.sidebar:
     # STDIO: Load config.json or fallback to default
     uploaded_file = st.file_uploader("Upload config.json for STDIO", type="json")
     if uploaded_file is not None:
-        config_path = "theailanguage_config.json"
+        config_path = "servers_config.json"
         with open(config_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
-        st.success("STDIO config saved as theailanguage_config.json")
+        st.success("STDIO config saved as servers_config.json")
         st.session_state.client_config["stdio_config"] = config_path
         add_log(f"STDIO config uploaded and saved as: {config_path}")
     else:
-        default_config = "theailanguage_config.json"
+        default_config = "server_local_config.json"
         if os.path.exists(default_config):
             st.info(f"Using default config: {default_config}")
             st.session_state.client_config["stdio_config"] = default_config
             add_log(f"Using default STDIO config: {default_config}")
         else:
-            st.warning("No STDIO config provided and default file 'theailanguage_config.json' not found.")
+            st.warning("No STDIO config provided and default file 'server_local_config.json' not found.")
             add_log("No STDIO config found.")
 
     st.markdown("---")
@@ -156,7 +156,7 @@ with st.sidebar:
 # Render circular logo and title
 col1, col2 = st.columns([1, 6])
 with col1:
-    raw_logo = Image.open("assets/logo.jpg")
+    raw_logo = Image.open("..\\..\\assets\\logo.png")
     size = min(raw_logo.size)
     mask = Image.new('L', (size, size), 0)
     draw = ImageDraw.Draw(mask)
@@ -166,13 +166,8 @@ with col1:
     st.image(circular_logo, use_container_width=True)
 
 with col2:
-    st.title("The AI Language - MCP Client")
+    st.title("ReAct Agent with MCP client and servers")
 
-# Render YouTube call to action as clickable link
-st.markdown(
-    "[**Subscribe to our YouTube – Get Free Access to Code. Click Here!**](https://youtube.com/@theailanguage?sub_confirmation=1)",
-    unsafe_allow_html=True
-)
 
 # Show past conversation
 for msg in st.session_state.conversation:

@@ -1,0 +1,16 @@
+{
+    "mcpServers": {
+        "terminal_server": {
+            "command": "C:\\Users\\Aseer\\miniconda3\\envs\\claude\\Scripts\\uv.exe",
+            "args": [
+                "--directory", "C:\\Users\\Aseer\\Desktop\\GIT\\Langchain-MCP\\claude\\mcp\\servers\\terminal_server\\",
+                "run", 
+                "terminal_server.py"
+            ]
+        },
+        "fetch": {
+            "command": "uvx",
+            "args": ["mcp-server-fetch"]
+        }
+    }
+}
