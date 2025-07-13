@@ -1,8 +1,19 @@
 # Introduction
 
+
+# Stack
+- MCP
+- Langchain
+- LangGraph
+- Google Gemini
+- StreamLit
+- Claude Desktop(for quick testing)
+
 # MCP servers
 
-# Gemini MCP Client
+## Prebuilt
+
+## Built
 
 # Langchain-MCP
 
@@ -24,6 +35,7 @@ https://www.docker.com/blog/the-model-context-protocol-simplifying-building-ai-a
 
 ![alt text](assets/image.png)
 
+# Streamlit
 
 # run
 
