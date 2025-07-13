@@ -65,14 +65,13 @@ def read_config_json():
     Reads the MCP server configuration JSON.
 
     Priority:
-      1. Try to read the path from the THEAILANGUAGE_CONFIG environment variable.
-      2. If not set, fallback to a default file 'theailanguage_config.json' in the same directory.
+      1. Try to read the path from the SERVER_CONFIG_PTH environment variable.
 
     Returns:
         dict: Parsed JSON content with MCP server definitions.
     """
     # Attempt to get the config file path from the environment variable
-    config_path = os.getenv("THEAILANGUAGE_CONFIG")
+    config_path = os.getenv("SERVER_CONFIG_PTH")
 
     if not config_path:
         print(f"CONFIG not set. Exiting.")
@@ -117,7 +116,7 @@ async def run_agent():
     async with AsyncExitStack() as stack:
         # Iterate over each MCP server defined in the configuration
         for server_name, server_info in mcp_servers.items():
-            print(f"\n🔗 Connecting to MCP Server: {server_name}...")
+            print(f"\nConnecting to MCP Server: {server_name}...")
 
             # Create StdioServerParameters using the command and arguments specified for the server
             server_params = StdioServerParameters(
@@ -138,7 +137,7 @@ async def run_agent():
 
                 # Iterate over each tool and add it to the aggregated tools list
                 for tool in server_tools:
-                    print(f"\n🔧 Loaded tool: {tool.name}")
+                    print(f"\nLoaded tool: {tool.name}")
                     tools.append(tool)
 
                 print(f"\n{len(server_tools)} tools loaded from {server_name}.")

@@ -101,7 +101,7 @@ with st.sidebar:
     st.header("Settings")
 
     # Client selection (only STDIO is implemented currently)
-    client_type = st.radio("Select Client Type:", options=["STDIO", "SSE (not implemented)"], index=0)
+    client_type = st.radio("Select Client Type:", options=["STDIO"], index=0)
     st.session_state.client_config["client_type"] = client_type
     add_log(f"Client type set to: {client_type}")
 
@@ -128,7 +128,7 @@ with st.sidebar:
     st.header("Load Conversation")
 
     # List and allow loading previous conversations
-    conversations_dir = "conversations"
+    conversations_dir = "..\\..\\workspace\\conversations"
     os.makedirs(conversations_dir, exist_ok=True)
     conversation_files = os.listdir(conversations_dir)
     if conversation_files:
@@ -181,6 +181,8 @@ def submit_on_enter():
     if st.session_state.query_input.strip():
         st.session_state.submit_triggered = True
         st.session_state.pending_query = st.session_state.query_input
+    
+
 
 # Input box: on pressing enter, triggers the callback
 st.text_input(
@@ -260,7 +262,7 @@ if new_conv_button:
 
 # Save conversation to a file
 if save_conv_button:
-    conversations_dir = "conversations"
+    conversations_dir = "..\\..\\workspace\\conversations"
     os.makedirs(conversations_dir, exist_ok=True)
     filename = f"conversation_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.json"
     filepath = os.path.join(conversations_dir, filename)

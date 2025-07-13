@@ -59,25 +59,25 @@ class CustomEncoder(json.JSONEncoder):
 # ---------------------------
 # Function: read_config_json
 # ---------------------------
-def read_config_json():
+def read_config_json(): 
     """
     Reads the MCP server configuration JSON.
 
     Priority:
-      1. Try to read the path from the THEAILANGUAGE_CONFIG environment variable.
-      2. If not set, fallback to a default file 'theailanguage_config.json' in the same directory.
+      1. Try to read the path from the SERVER_CONFIG_PTH environment variable.
+      2. If not set, fallback to a default file 'server_local_config.json' in the same directory.
 
     Returns:
         dict: Parsed JSON content with MCP server definitions.
     """
     # Attempt to get the config file path from the environment variable
-    config_path = os.getenv("THEAILANGUAGE_CONFIG")
+    config_path = os.getenv("SERVER_CONFIG_PTH")
 
     if not config_path:
         # If environment variable is not set, use a default config file in the same directory as this script
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        config_path = os.path.join(script_dir, "theailanguage_config.json")
-        print(f"THEAILANGUAGE_CONFIG not set. Falling back to: {config_path}")
+        config_path = os.path.join(script_dir, "server_local_config.json")
+        print(f"SERVER_CONFIG_PTH not set. Falling back to: {config_path}")
 
     try:
         # Open and read the JSON config file
@@ -119,7 +119,7 @@ async def run_agent(query: str) -> str:
     async with AsyncExitStack() as stack:
         # Iterate over each MCP server defined in the configuration
         for server_name, server_info in mcp_servers.items():
-            print(f"\n🔗 Connecting to MCP Server: {server_name}...")
+            print(f"\nConnecting to MCP Server: {server_name}...")
 
             # Create StdioServerParameters using the command and arguments specified for the server
             server_params = StdioServerParameters(
@@ -140,7 +140,7 @@ async def run_agent(query: str) -> str:
 
                 # Iterate over each tool and add it to the aggregated tools list
                 for tool in server_tools:
-                    print(f"\n🔧 Loaded tool: {tool.name}")
+                    print(f"\nLoaded tool: {tool.name}")
                     tools.append(tool)
 
                 print(f"\n{len(server_tools)} tools loaded from {server_name}.")
