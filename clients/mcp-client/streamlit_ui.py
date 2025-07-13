@@ -189,7 +189,7 @@ st.text_input(
     "Your Query:",
     key="query_input",
     placeholder="Type your query here",
-    on_change=submit_on_enter
+    on_change = submit_on_enter
 )
 
 # Buttons for sending message, starting new conversation, and saving conversation
@@ -242,8 +242,8 @@ async def handle_query(query: str):
 # MAIN TRIGGER LOGIC
 # ============================
 
-# Check for send button or enter key press, and ensure rerun doesn't loop
-if (send_button or st.session_state.submit_triggered) and not st.session_state.query_executed:
+# Check for send button and enter key press, and ensure rerun doesn't loop
+if (send_button and st.session_state.submit_triggered) and not st.session_state.query_executed:
     query = st.session_state.pending_query.strip()
     if query:
         run_async_in_event_loop(handle_query(query))

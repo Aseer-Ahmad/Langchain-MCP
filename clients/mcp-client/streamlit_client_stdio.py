@@ -33,6 +33,7 @@ from mcp.client.stdio import stdio_client             # For establishing a stdio
 from langchain_mcp_adapters.tools import load_mcp_tools  # Adapter to convert MCP tools to LangChain compatible tools
 from langgraph.prebuilt import create_react_agent        # Function to create a prebuilt React agent using LangGraph
 from langchain_google_genai import ChatGoogleGenerativeAI  # Wrapper for the Google Gemini API via LangChain
+from langchain.callbacks.base import AsyncCallbackHandler
 
 # ---------------------------
 # Environment Setup
@@ -88,6 +89,12 @@ def read_config_json():
         print(f"Failed to read config file at '{config_path}': {e}")
         sys.exit(1)
 
+# ---------------------------
+# Class: Stream token as they are generated
+# ---------------------------
+class StreamingHandler(AsyncCallbackHandler):
+    async def on_llm_new_token(self, token: str, **kwargs) -> None:
+        print(token, end="", flush=True)  # Stream token as it's generated
 
 # ---------------------------
 # Main Function: run_agent
@@ -106,6 +113,8 @@ async def run_agent(query: str) -> str:
         max_retries=2,                            # Set maximum retries for API calls to 2 in case of transient errors
         google_api_key=os.getenv("GOOGLE_API_KEY")  # Retrieve the Google API key from environment variables
     )
+
+    llm_with_stream  = llm.bind(callbacks = [StreamingHandler()])
 
     config = read_config_json()  # Load MCP server configuration from the JSON file
     mcp_servers = config.get("mcpServers", {})  # Retrieve the MCP server definitions from the config
@@ -158,6 +167,16 @@ async def run_agent(query: str) -> str:
 
         # Invoke the agent asynchronously with the query as the input message
         response = await agent.ainvoke({"messages": query})
+
+        # Invoke the agent with streaming LLM
+        # response = ""
+        # async for chunk in agent.astream({"messages": query}):
+        #     if "agent" in chunk and "messages" in chunk["agent"]: 
+        #         for message in chunk["agent"]["messages"]:
+        #             response += ""
+        #     if "tools" in chunk and "messages" in chunk["tools"]: 
+        #         pass
+
 
         # Format and print the agent's response as nicely formatted JSON
         print("\nResponse:")

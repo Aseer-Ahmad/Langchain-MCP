@@ -1,5 +1,6 @@
 # Introduction
 
+MCP-stdio : enables standard IO locally
 
 # Stack
 - MCP
